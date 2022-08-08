@@ -1,12 +1,5 @@
 import { createStore } from "vuex";
-import {
-  getFirestore,
-  collection,
-  query,
-  where,
-  getDocs,
-} from "firebase/firestore";
-import db from "../firebase/firebaseInit.js";
+import db from "../firebase/firebaseInit";
 
 export default createStore({
   state: {
@@ -63,8 +56,8 @@ export default createStore({
   },
   actions: {
     async GET_INVOICES({ commit, state }) {
-      const results = await query(collection(db, "invoices"));
-
+      const getData = db.collection("invoices");
+      const results = await getData.get();
       results.forEach((doc) => {
         if (!state.invoiceData.some((invoice) => invoice.docId === doc.id)) {
           const data = {
